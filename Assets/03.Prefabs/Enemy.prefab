@@ -53,7 +53,6 @@ MonoBehaviour:
   - {r: 0, g: 0.2465775, b: 1, a: 1}
   - {r: 0.42399856, g: 0.14509805, b: 0.74509805, a: 1}
   attackCost: 0
-  overHittingTime: 0
   target: {fileID: 0}
   attackRange: 8
   attackRapid: 0.1
@@ -176,6 +175,8 @@ MonoBehaviour:
   maxHealth: 100
   stamina: 0
   maxStamina: 100
+  currOverhittingTime: 0
+  overHittingTime: 3
 --- !u!50 &8591560172984465828
 Rigidbody2D:
   serializedVersion: 4

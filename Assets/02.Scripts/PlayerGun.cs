@@ -24,33 +24,31 @@ public class PlayerGun : Gun
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (Owner!=null && Owner.stamina>= attackCost && currOverhittingTime <= 0)
+        if (Owner!=null && Owner.stamina>= attackCost)
         {
-            if (Input.GetMouseButtonDown(0))
+            for(int i = 0; i < 2; i++)
             {
-                GameObject currBullet = Instantiate(BulletPrefab, bulletSpawnTRs[0].position, Quaternion.identity);
-                Owner.stamina -= attackCost;
-                currBullet.GetComponent<Bullet>().InitializeBullet((dir - this.transform.position).normalized, true, Owner.teamIndex, bulletColors[0], bulletColors[1]);
-                if(Owner.stamina < attackCost)
+                if (Input.GetMouseButtonDown(i))
                 {
-                    FindObjectOfType<GameManager>().TriggerNotEnoughStaminaAnim(Owner.teamIndex);
+                    if (Owner.currOverhittingTime <= 0)
+                    {
+                        GameObject currBullet = Instantiate(BulletPrefab, bulletSpawnTRs[i].position, Quaternion.identity);
+                        Owner.stamina -= attackCost;
+                        currBullet.GetComponent<Bullet>().InitializeBullet((dir - this.transform.position).normalized, i==0, Owner.teamIndex, bulletColors[0], bulletColors[1]);
+                        if (Owner.stamina < attackCost)
+                        {
+                            FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex, false);
+                            FindObjectOfType<GameManager>().TriggerOverHeatedAnim(Owner.teamIndex);
+                            Owner.currOverhittingTime = Owner.overHittingTime;
+                        }
+                    }
+                    else
+                    {
+                        FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex, false);
+                        FindObjectOfType<GameManager>().TriggerOverHeatedAnim(Owner.teamIndex);
+                        break;
+                    }
                 }
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                GameObject currBullet = Instantiate(BulletPrefab, bulletSpawnTRs[1].position, Quaternion.identity);
-                Owner.stamina -= attackCost;
-                currBullet.GetComponent<Bullet>().InitializeBullet((dir - this.transform.position).normalized, false, Owner.teamIndex, bulletColors[0], bulletColors[1]);
-                if (Owner.stamina < attackCost)
-                {
-                    FindObjectOfType<GameManager>().TriggerNotEnoughStaminaAnim(Owner.teamIndex);
-                }
-            }
-            if (Owner.stamina < attackCost)
-            {
-                FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex, false);
-                FindObjectOfType<GameManager>().TriggerOverHeatedAnim(Owner.teamIndex);
-                currOverhittingTime = overHittingTime;
             }
         }
     }

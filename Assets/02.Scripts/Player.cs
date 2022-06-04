@@ -20,7 +20,14 @@ public class Player : Character
             }
 
             anim.SetFloat("Vel", moveInput.magnitude * speed);
-            rb2D.velocity = moveInput * (speed) + Impact;
+            if (dodged)
+            {
+                rb2D.velocity = Impact;
+            }
+            else
+            {
+                rb2D.velocity = moveInput * (speed) + Impact;
+            }
 
 
             if (Mathf.Abs(rb2D.velocity.x) >0.1f)

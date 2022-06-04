@@ -20,6 +20,9 @@ public class Character : MonoBehaviour
     public float stamina;
     public float maxStamina = 100f;
 
+    public float currOverhittingTime;
+    public float overHittingTime;
+
     protected Vector2 moveInput = new Vector2(-1, 0);
 
     protected Vector2 Impact;
@@ -124,17 +127,27 @@ public class Character : MonoBehaviour
     {
         if (dodged==false)
         {
-            if (stamina >= dodgeStaminaCost)
+            if (currOverhittingTime <= 0)
             {
-                stamina -= dodgeStaminaCost;
+                if (stamina >= dodgeStaminaCost)
+                {
+                    stamina -= dodgeStaminaCost;
 
-                Impact = _dir * dodgeForce;
-                StopCoroutine("DodgeCoroutine");
-                StartCoroutine("DodgeCoroutine", 0.5f);
+                    Impact = _dir * dodgeForce;
+                    StopCoroutine("DodgeCoroutine");
+                    StartCoroutine("DodgeCoroutine", 0.5f);
+                }
+                else
+                {
+                    FindObjectOfType<GameManager>().TriggerGotStaminaAnim(teamIndex, false);
+                    FindObjectOfType<GameManager>().TriggerOverHeatedAnim(teamIndex);
+                    currOverhittingTime = overHittingTime;
+                }
             }
             else
             {
-                FindObjectOfType<GameManager>().TriggerNotEnoughStaminaAnim(teamIndex);
+                FindObjectOfType<GameManager>().TriggerGotStaminaAnim(teamIndex, false);
+                FindObjectOfType<GameManager>().TriggerOverHeatedAnim(teamIndex);
             }
         }
     }

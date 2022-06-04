@@ -25,6 +25,7 @@ public class CharacterCustomize : MonoBehaviour
     [SerializeField] Sprite[] hairSprites;
     [SerializeField] Sprite[] backHairSprites;
     [SerializeField] Sprite[] emotionSprites;
+    [SerializeField] Sprite[] accessoriesSprites;
 
     [SerializeField] SpriteRenderer BackHairSR;
     [SerializeField] SpriteRenderer HairSR;
@@ -73,7 +74,10 @@ public class CharacterCustomize : MonoBehaviour
             Color hairColor = GameData.hairColor;
             SetSprite(CustomType.Hair, GameData.customIndex[(int)CustomType.Hair], hairColor);
             hairColor -= Color.white * 0.1f;
+            hairColor.a = 1;
             SetSprite(CustomType.BackHair, GameData.customIndex[(int)CustomType.BackHair], hairColor);
+
+            SetSprite(CustomType.Accessory, GameData.customIndex[(int)CustomType.Accessory], Color.white);
         }
         ResetOriginColor();
     }
@@ -84,14 +88,19 @@ public class CharacterCustomize : MonoBehaviour
         int hairIndex = Random.Range(0, hairSprites.Length);
         SetSprite(CustomType.Hair, hairIndex, hairColor);
         hairColor -= Color.white * 0.1f;
+        hairColor.a = 1;
         int backHairIndex = Random.Range(0, backHairSprites.Length);
         SetSprite(CustomType.BackHair, backHairIndex, hairColor);
+
+        int accessoryIndex = Random.Range(0, accessoriesSprites.Length);
+        SetSprite(CustomType.Accessory, accessoryIndex, Color.white);
 
         if (isPlayer)
         {
             GameData.hairColor = hairColor;
             GameData.customIndex[(int)CustomType.Hair] = hairIndex;
             GameData.customIndex[(int)CustomType.BackHair] = backHairIndex;
+            GameData.customIndex[(int)CustomType.Accessory] = accessoryIndex;
         }
     }
 
@@ -115,12 +124,18 @@ public class CharacterCustomize : MonoBehaviour
                 BackHairSR.color = _color;
                 break;
             case CustomType.Face:
-                print("Face : "+ _index);
                 if (_index >= 0)
                     FaceSR.sprite = emotionSprites[_index];
                 else
                     FaceSR.sprite = emotionSprites[0];
                 FaceSR.color = Color.white;
+                break;
+            case CustomType.Accessory:
+                if (_index >= 0)
+                    AccessorySR.sprite = accessoriesSprites[_index];
+                else
+                    AccessorySR.sprite = accessoriesSprites[0];
+                AccessorySR.color = Color.white;
                 break;
         }
     }

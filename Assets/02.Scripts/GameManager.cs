@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CinemachineVirtualCamera VC;
 
+    [SerializeField]private Text LogTxt;
+
     private void Start()
     {
         player = FindObjectOfType<Player>();
@@ -118,13 +120,15 @@ public class GameManager : MonoBehaviour
             staminaSliders[1].value = (float)enemy.stamina / enemy.maxStamina;
     }
 
-    public void TriggerNotEnoughStaminaAnim(int _teamIndex)
-    {
-        staminaSliders[_teamIndex].GetComponent<Animator>().SetTrigger("NotEnough");
-    }
     public void TriggerOverHeatedAnim(int _teamIndex)
     {
         staminaSliders[_teamIndex].GetComponent<Animator>().SetTrigger("Overheated");
+
+        if (_teamIndex == 0)
+        {
+            LogTxt.text = "지친 상태입니다.";
+            LogTxt.GetComponent<Animator>().SetTrigger("Appear");
+        }
     }
     public void TriggerGotStaminaAnim(int _teamIndex,bool _active)
     {

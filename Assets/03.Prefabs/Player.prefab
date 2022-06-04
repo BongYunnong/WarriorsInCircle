@@ -143,7 +143,6 @@ MonoBehaviour:
   - {r: 1, g: 0.6640479, b: 0, a: 1}
   - {r: 1, g: 0.4631136, b: 0, a: 1}
   attackCost: 1
-  overHittingTime: 3
 --- !u!1 &518568617255491333
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,9 +197,12 @@ MonoBehaviour:
   ImpactMultiplier: 3
   dodgeForce: 20
   dodgeStaminaCost: 5
+  teamIndex: 0
   maxHealth: 100
   stamina: 0
   maxStamina: 50
+  currOverhittingTime: 0
+  overHittingTime: 3
 --- !u!50 &518568617255491329
 Rigidbody2D:
   serializedVersion: 4

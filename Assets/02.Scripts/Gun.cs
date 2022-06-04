@@ -12,8 +12,6 @@ public class Gun : MonoBehaviour
     protected Character Owner;
     [SerializeField] protected float attackCost;
 
-    protected float currOverhittingTime;
-    [SerializeField] protected float overHittingTime;
 
     protected virtual void Start()
     {
@@ -26,8 +24,8 @@ public class Gun : MonoBehaviour
         {
             return;
         }
-        currOverhittingTime -= Time.deltaTime;
-        if (currOverhittingTime <= 0)
+        Owner.currOverhittingTime -= Time.deltaTime;
+        if (Owner.currOverhittingTime <= 0)
         {
             FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex,true);
         }

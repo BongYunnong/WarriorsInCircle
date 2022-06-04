@@ -24,7 +24,7 @@ public class EnemyGun : Gun
         }
         base.Update();
         currAttackCoolTime -= Time.deltaTime;
-        if (Owner != null && currOverhittingTime <= 0)
+        if (Owner != null && Owner.currOverhittingTime <= 0)
         {
             if (Owner.stamina >= attackCost)
             {
@@ -42,7 +42,7 @@ public class EnemyGun : Gun
                     {
                         FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex, false);
                         FindObjectOfType<GameManager>().TriggerOverHeatedAnim(Owner.teamIndex);
-                        currOverhittingTime = overHittingTime;
+                        Owner.currOverhittingTime = Owner.overHittingTime;
                     }
                     attackCount++;
                     currAttackCoolTime = attackRapid;
@@ -50,7 +50,8 @@ public class EnemyGun : Gun
             }
             else
             {
-                FindObjectOfType<GameManager>().TriggerNotEnoughStaminaAnim(Owner.teamIndex);
+                FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex, false);
+                FindObjectOfType<GameManager>().TriggerOverHeatedAnim(Owner.teamIndex);
             }
         }
     }

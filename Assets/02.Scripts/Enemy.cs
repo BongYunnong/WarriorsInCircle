@@ -30,7 +30,14 @@ public class Enemy : Character
             }
 
             anim.SetFloat("Vel", moveInput.magnitude * speed);
-            rb2D.velocity = moveInput * (speed) + Impact;
+            if (dodged)
+            {
+                rb2D.velocity = Impact;
+            }
+            else
+            {
+                rb2D.velocity = moveInput * (speed) + Impact;
+            }
 
             if (rb2D.velocity.x != 0f)
             {
