@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 299062496}
   - component: {fileID: 299062495}
   - component: {fileID: 299062494}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (3)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -325,6 +325,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &326160389 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 518568617255491335, guid: 7c49fc225132b6e4eba64bcd997f7b88, type: 3}
+  m_PrefabInstance: {fileID: 518568617416162332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &353167834 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2738123006043534423, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
@@ -347,7 +352,7 @@ GameObject:
   - component: {fileID: 424335858}
   - component: {fileID: 424335857}
   - component: {fileID: 424335856}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (1)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -969,7 +974,7 @@ GameObject:
   - component: {fileID: 990550138}
   - component: {fileID: 990550137}
   - component: {fileID: 990550136}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (5)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1078,7 +1083,7 @@ GameObject:
   - component: {fileID: 1098940225}
   - component: {fileID: 1098940224}
   - component: {fileID: 1098940223}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (2)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1352,11 +1357,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1754742794 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1754742794, guid: 7c49fc225132b6e4eba64bcd997f7b88, type: 3}
-  m_PrefabInstance: {fileID: 518568617416162332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1820915739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,13 +1395,28 @@ MonoBehaviour:
   staminaSliders:
   - {fileID: 1281067548}
   - {fileID: 325530753}
+  SkillCoolTimeImg: {fileID: 2738123006260829583}
+  SkillImg: {fileID: 2738123006260829582}
+  skillSprites:
+  - {fileID: 8093596547606901066, guid: 79bd6212be3242c4782d80815424305f, type: 3}
+  - {fileID: 2134378946067843286, guid: 79bd6212be3242c4782d80815424305f, type: 3}
+  - {fileID: -1910646825391172180, guid: 79bd6212be3242c4782d80815424305f, type: 3}
+  - {fileID: 8210451343834232703, guid: 79bd6212be3242c4782d80815424305f, type: 3}
+  - {fileID: 3419371941638665546, guid: 79bd6212be3242c4782d80815424305f, type: 3}
+  - {fileID: 8710329474841819885, guid: 79bd6212be3242c4782d80815424305f, type: 3}
   GameTime: 90
   backgroundAudioSource: {fileID: 951213355}
   ExecutionAudioSource: {fileID: 714493682}
+  maxConcentrate: 7
   camShakeMultiplier: 0.2
   maxCamShakeAmplitude: 10
   VC: {fileID: 1252072010}
   LogTxt: {fileID: 1983911206}
+  enemyHealthMixMax: {x: 50, y: 150}
+  enemyDamageMinMax: {x: 1, y: 6}
+  enemySpeedMinMax: {x: 5, y: 7}
+  enemyStaminaMinMax: {x: 40, y: 60}
+  enemyAttackRateMinMax: {x: 0.05, y: 0.15}
 --- !u!4 &1820915741
 Transform:
   m_ObjectHideFlags: 0
@@ -1427,7 +1442,7 @@ GameObject:
   - component: {fileID: 1837517073}
   - component: {fileID: 1837517072}
   - component: {fileID: 1837517071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (6)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1584,7 +1599,7 @@ GameObject:
   - component: {fileID: 1950185400}
   - component: {fileID: 1950185399}
   - component: {fileID: 1950185398}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (7)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1693,7 +1708,7 @@ GameObject:
   - component: {fileID: 1953931009}
   - component: {fileID: 1953931008}
   - component: {fileID: 1953931007}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (4)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1879,7 +1894,7 @@ GameObject:
   - component: {fileID: 2059778184}
   - component: {fileID: 2059778183}
   - component: {fileID: 2059778182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2032,6 +2047,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7826052541404973557, guid: 7c49fc225132b6e4eba64bcd997f7b88, type: 3}
+      propertyPath: skillType
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c49fc225132b6e4eba64bcd997f7b88, type: 3}
 --- !u!1001 &2738123006260829581
@@ -2047,6 +2066,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2738123004584291020, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2738123004799861805, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2738123004847979421, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
@@ -2065,6 +2088,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1918078781}
+    - target: {fileID: 2738123005405169290, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RepeatThisScene
+      objectReference: {fileID: 0}
     - target: {fileID: 2738123005688772155, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2179,6 +2206,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
+--- !u!114 &2738123006260829582 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3403489257921845300, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
+  m_PrefabInstance: {fileID: 2738123006260829581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2738123006260829583 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7498545382755997493, guid: 5c3734e53ac490a4381db288a3317995, type: 3}
+  m_PrefabInstance: {fileID: 2738123006260829581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5367931117873181322
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2186,26 +2235,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4415184170737290027, guid: e0ca0d5184d4b1c499fb573c90a20807, type: 3}
-      propertyPath: maxStamina
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 4415184170737290027, guid: e0ca0d5184d4b1c499fb573c90a20807, type: 3}
-      propertyPath: staminaRecoveryRate
-      value: 5
+    - target: {fileID: 1880289590458287576, guid: e0ca0d5184d4b1c499fb573c90a20807, type: 3}
+      propertyPath: skillType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5525010245702545726, guid: e0ca0d5184d4b1c499fb573c90a20807, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 1754742794}
-    - target: {fileID: 5525010245702545726, guid: e0ca0d5184d4b1c499fb573c90a20807, type: 3}
-      propertyPath: attackCost
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525010245702545726, guid: e0ca0d5184d4b1c499fb573c90a20807, type: 3}
-      propertyPath: overHittingTime
-      value: 3
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 326160389}
     - target: {fileID: 8591560172984465824, guid: e0ca0d5184d4b1c499fb573c90a20807, type: 3}
       propertyPath: m_Name
       value: Enemy

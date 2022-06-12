@@ -6,11 +6,12 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody2D rb2D;
     [SerializeField] float speed = 1f;
-    [SerializeField] float damage = 1f;
+    float damage = 1f;
     [SerializeField] float lifeTime = 0.5f;
     private bool destroying = false;
     [SerializeField] int teamIndex = 0;
 
+    [SerializeField] Sprite[] bulletSprites;
     [SerializeField] ParticleSystem[] yellParticles;
 
     [SerializeField] AudioSource bulletAudioSource;
@@ -23,11 +24,12 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] GameObject[] bulletHitVFXs;
 
-    public void InitializeBullet(Vector2 _input, bool _leftAttack,int _teamIndex, Color _color_l, Color _color_r)
+    public void InitializeBullet(float _damage, Vector2 _input, bool _leftAttack,int _teamIndex, Color _color_l, Color _color_r)
     {
         rb2D = GetComponent<Rigidbody2D>();
         rb2D.velocity = _input*speed;
 
+        damage = _damage;
 
         Vector3 dir = _input;
         dir.z = 0f;
@@ -38,6 +40,10 @@ public class Bullet : MonoBehaviour
         GetComponent<SpriteRenderer>().color = _leftAttack ? _color_l : _color_r;
 
         teamIndex = _teamIndex;
+        if (teamIndex == 0)
+        {
+            GetComponent<SpriteRenderer>().sprite = bulletSprites[GameData.weaponIndex];
+        }
 
         bulletAudioSource.clip = bulletAudioclips[Random.Range(0, bulletAudioclips.Length)];
         bulletAudioSource.Play();
@@ -76,6 +82,7 @@ public class Bullet : MonoBehaviour
     {
         if (destroying==false)
         {
+            GameManager _gm = GameManager.GetInstance();
             if (collision.transform.CompareTag("Player") && teamIndex == 1)
             {
                 hitAudioSource.clip = characterHitAudioClips[Random.Range(0, characterHitAudioClips.Length)];
@@ -85,7 +92,7 @@ public class Bullet : MonoBehaviour
                     damage,
                     (collision.transform.position - this.transform.position).normalized
                     );
-                GameManager.GetInstance().CameraShake(damage, 0.1f);
+                _gm.CameraShake(damage, 0.1f);
 
                 Instantiate(bulletHitVFXs[0], this.transform.position,Quaternion.identity);
             }
@@ -97,7 +104,7 @@ public class Bullet : MonoBehaviour
                 collision.GetComponent<Character>().Attacked(
                     damage,
                     (collision.transform.position - this.transform.position).normalized);
-                GameManager.GetInstance().CameraShake(damage, 0.1f);
+                _gm.CameraShake(damage, 0.1f);
 
                 Instantiate(bulletHitVFXs[0], this.transform.position, Quaternion.identity);
             }
@@ -106,7 +113,7 @@ public class Bullet : MonoBehaviour
                 hitAudioSource.clip = wallHitAudioClips[Random.Range(0, wallHitAudioClips.Length)];
                 hitAudioSource.Play();
                 StartCoroutine("DestroyCoroutine", 0);
-                GameManager.GetInstance().CameraShake(damage, 0.1f);
+                _gm.CameraShake(damage, 0.1f);
 
                 Instantiate(bulletHitVFXs[1], this.transform.position, Quaternion.identity);
             }
@@ -118,7 +125,7 @@ public class Bullet : MonoBehaviour
                     hitAudioSource.clip = bulletHitAudioClips[Random.Range(0, bulletHitAudioClips.Length)];
                     hitAudioSource.Play();
                     StartCoroutine("DestroyCoroutine", 0);
-                    GameManager.GetInstance().CameraShake(damage, 0.1f);
+                    _gm.CameraShake(damage, 0.1f);
 
                     Instantiate(bulletHitVFXs[1], this.transform.position, Quaternion.identity);
                 }

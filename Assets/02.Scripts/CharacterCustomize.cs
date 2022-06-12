@@ -61,7 +61,9 @@ public class CharacterCustomize : MonoBehaviour
     [SerializeField] AudioSource fooStepAudioSource;
     [SerializeField] AudioClip[] footStepAudioClips;
 
-    private Color[] originColors = new Color[11];
+    [SerializeField] SpriteRenderer ShadowSR;
+
+    private Color[] originColors = new Color[12];
 
     private void Start()
     {
@@ -142,7 +144,6 @@ public class CharacterCustomize : MonoBehaviour
 
     public void SetEmotionFace(int emoIndex)
     {
-        print("SetEmotionf");
         if (myEmotionCoroutine != null)
             StopCoroutine(myEmotionCoroutine);
         SetSprite(CustomType.Face,emoIndex, Color.white);
@@ -199,6 +200,8 @@ public class CharacterCustomize : MonoBehaviour
         RightLegSR.color = originColors[(int)CustomType.LowerBody];
 
         BackStuffSR.color = originColors[(int)CustomType.BackStuff];
+
+        ShadowSR.color = originColors[originColors.Length-1];
     }
     public void ResetOriginColor()
     {
@@ -212,7 +215,8 @@ public class CharacterCustomize : MonoBehaviour
         originColors[(int)CustomType.UpperBody]= UpperBodySR.color;
         originColors[(int)CustomType.HandStuff]= LeftHandStuffSR.color;
         originColors[(int)CustomType.LowerBody]= LowerBodySR.color;
-        originColors[(int)CustomType.BackStuff]= BackStuffSR.color;
+        originColors[(int)CustomType.BackStuff] = BackStuffSR.color;
+        originColors[originColors.Length - 1] = ShadowSR.color;
     }
 
     public void SetTemporalSpriteColor(Color targetColor, float speed)
@@ -243,5 +247,7 @@ public class CharacterCustomize : MonoBehaviour
         RightLegSR.color = Color.Lerp(RightLegSR.color, targetColor, speed * Time.deltaTime);
 
         BackStuffSR.color = Color.Lerp(BackStuffSR.color, targetColor, speed * Time.deltaTime);
+
+        ShadowSR.color = Color.Lerp(ShadowSR.color, targetColor, speed * Time.deltaTime);
     }
 }

@@ -9,6 +9,8 @@ public static class GameData
     public static Color hairColor;
     public static int[] customIndex = new int[11];
     public static Color[] bulletColors = new Color[2];
+    public static int weaponIndex;
+    public static int skillIndex;
 }
 
 public class GameManager : MonoBehaviour
@@ -28,6 +30,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Slider[] healthSliders;
     [SerializeField] Slider[] staminaSliders;
+    [SerializeField] Image SkillCoolTimeImg;
+    [SerializeField] Image SkillImg;
+    [SerializeField] Sprite[] skillSprites;
     Player player;
     Enemy enemy;
 
@@ -37,6 +42,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioSource ExecutionAudioSource;
     public bool GameEnded { get; private set; }
 
+    float currConcentrate = 0f;
+    [SerializeField] float maxConcentrate = 5f;
 
     [SerializeField] float camShakeMultiplier = 1f;
     [SerializeField] float maxCamShakeAmplitude = 20;
@@ -47,6 +54,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]private Text LogTxt;
 
+    // Balance
+    public Vector2 enemyHealthMixMax;
+    public Vector2 enemyDamageMinMax;
+    public Vector2 enemySpeedMinMax;
+    public Vector2 enemyStaminaMinMax;
+    public Vector2 enemyAttackRateMinMax;
+
     private void Start()
     {
         player = FindObjectOfType<Player>();
@@ -54,6 +68,8 @@ public class GameManager : MonoBehaviour
         Invoke("UpdateCharacterHealth",0.5f);
 
         GameEnded = false;
+        
+        SkillImg.sprite = skillSprites[GameData.skillIndex];
     }
     private void Update()
     {
@@ -103,6 +119,16 @@ public class GameManager : MonoBehaviour
                 VC.m_Follow.localPosition = Vector3.zero;
                 camShakeAmplitude = 0;
             }
+
+            if (currConcentrate>0)
+            {
+                currConcentrate -= Time.deltaTime;
+                VC.m_Lens.OrthographicSize = Mathf.Lerp(VC.m_Lens.OrthographicSize, maxConcentrate, Time.deltaTime*0.5f);
+            }
+            else
+            {
+                VC.m_Lens.OrthographicSize = Mathf.Lerp(VC.m_Lens.OrthographicSize, 10f, Time.deltaTime * 3f);
+            }
         }
     }
     public void UpdateCharacterHealth()
@@ -118,6 +144,11 @@ public class GameManager : MonoBehaviour
             staminaSliders[0].value = (float)player.stamina / player.maxStamina;
         if (enemy)
             staminaSliders[1].value = (float)enemy.stamina / enemy.maxStamina;
+    }
+    public void UpdateSkillCoolTime(float _ratio)
+    {
+        if (player)
+            SkillCoolTimeImg.fillAmount = _ratio;
     }
 
     public void TriggerOverHeatedAnim(int _teamIndex)
@@ -141,6 +172,11 @@ public class GameManager : MonoBehaviour
         camShakeAmplitude = Mathf.Clamp(camShakeAmplitude, 0, maxCamShakeAmplitude);
         if(VC.m_Follow)
             VC.m_Follow.localPosition = new Vector3(Random.Range(-1f, 1f) * camShakeAmplitude * camShakeMultiplier, Random.Range(-1f, 1f) * camShakeAmplitude* camShakeMultiplier, VC.m_Follow.position.z);
+    }
+
+    public void CameraConcentrate(float _time)
+    {
+        currConcentrate += _time;
     }
 
 

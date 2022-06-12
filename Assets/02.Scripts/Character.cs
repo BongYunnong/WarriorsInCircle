@@ -6,9 +6,11 @@ public class Character : MonoBehaviour
 {
     protected Animator anim;
     protected Rigidbody2D rb2D;
-    protected CharacterCustomize characterCustomize;
+    public Skill skill { get; protected set; }
+    public CharacterCustomize characterCustomize { get; protected set; }
     [SerializeField] protected Transform body;
     [SerializeField] protected float speed = 3f;
+    protected float speedMultiplier=1f;
     [SerializeField] private float staminaRecoveryRate = 5f;
     [SerializeField] protected float ImpactMultiplier = 3f;
     [SerializeField] private float dodgeForce = 20f;
@@ -42,6 +44,7 @@ public class Character : MonoBehaviour
     {
         anim = body.GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
+        skill = GetComponentInChildren<Skill>();
         characterCustomize = GetComponentInChildren<CharacterCustomize>();
 
         attacked = false;
@@ -76,10 +79,23 @@ public class Character : MonoBehaviour
                 characterCustomize.SetTemporalSpriteColor(Color.red, 5f);
             }
 
-            if(moveInput.magnitude>0.1 || dodged)
+            // moveInput.magnitude>0.1 || 이거 왜 넣었지..?
+            if (dodged)
             {
                 characterCustomize.ResetColor();
             }
+
+            speedMultiplier = 1f;
+            if (skill && skill.isActivated)
+            {
+                if (skill.skillType == Skill.SkillType.Guard)
+                    speedMultiplier += -0.5f;
+                else if (skill.skillType == Skill.SkillType.Invisible)
+                    speedMultiplier += -0.1f;
+                else if (skill.skillType == Skill.SkillType.Haste)
+                    speedMultiplier += 0.5f;
+            }
+
         }
         else
         {
@@ -89,14 +105,25 @@ public class Character : MonoBehaviour
             rb2D.velocity = Vector2.zero;
         }
     }
-
+    public void AddPlayerHealth(float _add)
+    {
+        health += _add;
+        health = Mathf.Clamp(health, 0, maxHealth);
+        GameManager.GetInstance().UpdateCharacterHealth();
+    }
     public void Attacked(float damage, Vector2 knockBackImpact)
     {
         if (dodged == false && health>0)
         {
-            health -= damage;
-            health = Mathf.Clamp(health, 0, maxHealth);
-            FindObjectOfType<GameManager>().UpdateCharacterHealth();
+            if (skill)
+                if (skill.skillType == Skill.SkillType.Guard 
+                    && skill.isActivated)
+                    damage *= 0.25f;
+
+            AddPlayerHealth(-damage);
+
+            if(skill)
+                skill.CharacterHitted();
 
             Impact += knockBackImpact * ImpactMultiplier;
             if (health <= 0)
@@ -116,9 +143,7 @@ public class Character : MonoBehaviour
     IEnumerator AttackedCoroutine(float stunTime)
     {
         attacked = true;
-        //GetComponentInChildren<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(stunTime);
-        //GetComponentInChildren<SpriteRenderer>().color = Color.white;
         attacked = false;
         characterCustomize.ResetColor();
     }
@@ -127,6 +152,7 @@ public class Character : MonoBehaviour
     {
         if (dodged==false)
         {
+            GameManager _gm = GameManager.GetInstance();
             if (currOverhittingTime <= 0)
             {
                 if (stamina >= dodgeStaminaCost)
@@ -139,15 +165,15 @@ public class Character : MonoBehaviour
                 }
                 else
                 {
-                    FindObjectOfType<GameManager>().TriggerGotStaminaAnim(teamIndex, false);
-                    FindObjectOfType<GameManager>().TriggerOverHeatedAnim(teamIndex);
+                    _gm.TriggerGotStaminaAnim(teamIndex, false);
+                    _gm.TriggerOverHeatedAnim(teamIndex);
                     currOverhittingTime = overHittingTime;
                 }
             }
             else
             {
-                FindObjectOfType<GameManager>().TriggerGotStaminaAnim(teamIndex, false);
-                FindObjectOfType<GameManager>().TriggerOverHeatedAnim(teamIndex);
+                _gm.TriggerGotStaminaAnim(teamIndex, false);
+                _gm.TriggerOverHeatedAnim(teamIndex);
             }
         }
     }

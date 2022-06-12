@@ -8,6 +8,7 @@ public class PlayerGun : Gun
     {
         base.Start();
 
+
         bulletColors[0] = GameData.bulletColors[0];
         bulletColors[1] = GameData.bulletColors[1];
     }
@@ -30,22 +31,28 @@ public class PlayerGun : Gun
             {
                 if (Input.GetMouseButtonDown(i))
                 {
+                    GameManager _gm = GameManager.GetInstance();
                     if (Owner.currOverhittingTime <= 0)
                     {
+                        _gm.CameraConcentrate(0.1f);
+
                         GameObject currBullet = Instantiate(BulletPrefab, bulletSpawnTRs[i].position, Quaternion.identity);
                         Owner.stamina -= attackCost;
-                        currBullet.GetComponent<Bullet>().InitializeBullet((dir - this.transform.position).normalized, i==0, Owner.teamIndex, bulletColors[0], bulletColors[1]);
+                        currBullet.GetComponent<Bullet>().InitializeBullet(gunDamage,(dir - this.transform.position).normalized, i==0, Owner.teamIndex, bulletColors[0], bulletColors[1]);
                         if (Owner.stamina < attackCost)
                         {
-                            FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex, false);
-                            FindObjectOfType<GameManager>().TriggerOverHeatedAnim(Owner.teamIndex);
+                            _gm.TriggerGotStaminaAnim(Owner.teamIndex, false);
+                            _gm.TriggerOverHeatedAnim(Owner.teamIndex);
                             Owner.currOverhittingTime = Owner.overHittingTime;
                         }
+
+                        if (Owner.skill)
+                            Owner.skill.CharacterAttacked();
                     }
                     else
                     {
-                        FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex, false);
-                        FindObjectOfType<GameManager>().TriggerOverHeatedAnim(Owner.teamIndex);
+                        _gm.TriggerGotStaminaAnim(Owner.teamIndex, false);
+                        _gm.TriggerOverHeatedAnim(Owner.teamIndex);
                         break;
                     }
                 }

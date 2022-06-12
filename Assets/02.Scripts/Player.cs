@@ -26,7 +26,7 @@ public class Player : Character
             }
             else
             {
-                rb2D.velocity = moveInput * (speed) + Impact;
+                rb2D.velocity = moveInput * (speed* speedMultiplier) + Impact;
             }
 
 

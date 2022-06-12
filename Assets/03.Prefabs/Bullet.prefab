@@ -356,9 +356,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
-  damage: 5
   lifeTime: 0.2
   teamIndex: 0
+  bulletSprites:
+  - {fileID: 21300000, guid: 894f2bdd1b2ae8a4585af5c993b72355, type: 3}
+  - {fileID: 21300000, guid: 686884604e6d7994f8424f26b239f912, type: 3}
   yellParticles:
   - {fileID: 4563073852312192333}
   - {fileID: 5596136551073707060}

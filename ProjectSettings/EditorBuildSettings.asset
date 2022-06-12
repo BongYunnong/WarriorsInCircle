@@ -9,14 +9,8 @@ EditorBuildSettings:
     path: Assets/01.Scenes/Title.unity
     guid: c50b86289588d9c40a44455e4a03b5eb
   - enabled: 1
-    path: Assets/01.Scenes/Stage1.unity
+    path: Assets/01.Scenes/Infinite.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/01.Scenes/Stage2.unity
-    guid: b32f3ea58387bd64c9613ec636d3ded5
-  - enabled: 1
-    path: Assets/01.Scenes/Stage3.unity
-    guid: 10c57660fec9a9e41bdbf84371046eaf
   - enabled: 1
     path: Assets/01.Scenes/Ending.unity
     guid: 6e9bcd1bb1eb58b469a206179229d05b

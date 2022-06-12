@@ -9,6 +9,10 @@ public class MySceneManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    public void RepeatThisScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     public void GoToScene(int _sceneIndex)
     {
         SceneManager.LoadScene(_sceneIndex);

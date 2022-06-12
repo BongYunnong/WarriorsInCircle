@@ -12,10 +12,16 @@ public class Gun : MonoBehaviour
     protected Character Owner;
     [SerializeField] protected float attackCost;
 
+    public float gunDamage;
 
     protected virtual void Start()
     {
         Owner = GetComponentInParent<Character>(); 
+    }
+
+    public void SetGunDamage(float _damage)
+    {
+        gunDamage = _damage;
     }
 
     protected virtual void Update()
@@ -27,7 +33,7 @@ public class Gun : MonoBehaviour
         Owner.currOverhittingTime -= Time.deltaTime;
         if (Owner.currOverhittingTime <= 0)
         {
-            FindObjectOfType<GameManager>().TriggerGotStaminaAnim(Owner.teamIndex,true);
+            GameManager.GetInstance().TriggerGotStaminaAnim(Owner.teamIndex,true);
         }
     }
 }

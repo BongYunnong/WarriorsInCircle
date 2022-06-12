@@ -1452,6 +1452,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6544c41040573c14bb7b76beab3138f9, type: 3}
   - {fileID: 8300000, guid: fe6f746272be5e34f90fdd09718d3782, type: 3}
   - {fileID: 8300000, guid: 02d3537f01013d24284d147c8980b37a, type: 3}
+  ShadowSR: {fileID: 6808076491899903299}
 --- !u!114 &690582302788136044
 MonoBehaviour:
   m_ObjectHideFlags: 0
