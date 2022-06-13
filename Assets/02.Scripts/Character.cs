@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float staminaRecoveryRate = 5f;
     [SerializeField] protected float ImpactMultiplier = 3f;
     [SerializeField] private float dodgeForce = 20f;
-    [SerializeField] private float dodgeStaminaCost = 10f;
+    [SerializeField] private float dodgeStaminaCost = 3f;
 
     public int teamIndex;
     public float health { get; protected set; }
@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
     public float currOverhittingTime;
     public float overHittingTime;
 
-    protected Vector2 moveInput = new Vector2(-1, 0);
+    protected Vector2 moveInput = new Vector2(0, 0);
 
     protected Vector2 Impact;
     protected bool attacked;

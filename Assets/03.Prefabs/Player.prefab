@@ -173,7 +173,7 @@ MonoBehaviour:
   bulletColors:
   - {r: 1, g: 0.6640479, b: 0, a: 1}
   - {r: 1, g: 0.4631136, b: 0, a: 1}
-  attackCost: 1
+  attackCost: 2
   gunDamage: 3
 --- !u!1 &518568617255491333
 GameObject:
@@ -226,14 +226,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 5298971153010210958}
   speed: 6
-  staminaRecoveryRate: 5
+  staminaRecoveryRate: 15
   ImpactMultiplier: 3
   dodgeForce: 30
   dodgeStaminaCost: 5
   teamIndex: 0
   maxHealth: 100
   stamina: 0
-  maxStamina: 50
+  maxStamina: 100
   currOverhittingTime: 0
   overHittingTime: 3
 --- !u!50 &518568617255491329
@@ -400,6 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf33be246b2b8a4fbb409aa352c8641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RandomizeSkill: 0
   skillType: 4
   BuildBlockCursor: {fileID: 1331887442}
   BuildBlockPrefab: {fileID: 2704898195509729127, guid: cc776f5f32a38f84dac1fbcae50d181c, type: 3}

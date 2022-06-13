@@ -4,14 +4,26 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [System.Serializable]
+    public struct BulletInfo
+    {
+        public string bulletName;
+        public Sprite bulletSprite;
+        public float additionalSpeed;
+        public float additionalDamage;
+        public float additionalLifeTime;
+        public Vector2 size;
+        public bool rotate;
+    }
     Rigidbody2D rb2D;
+    int myBulletIndex;
     [SerializeField] float speed = 1f;
     float damage = 1f;
     [SerializeField] float lifeTime = 0.5f;
     private bool destroying = false;
     [SerializeField] int teamIndex = 0;
 
-    [SerializeField] Sprite[] bulletSprites;
+    [SerializeField] BulletInfo[] bulletInfos;
     [SerializeField] ParticleSystem[] yellParticles;
 
     [SerializeField] AudioSource bulletAudioSource;
@@ -24,12 +36,16 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] GameObject[] bulletHitVFXs;
 
-    public void InitializeBullet(float _damage, Vector2 _input, bool _leftAttack,int _teamIndex, Color _color_l, Color _color_r)
+    public void InitializeBullet(int bulletIndex,float _damage, Vector2 _input, bool _leftAttack,int _teamIndex, Color _color_l, Color _color_r)
     {
-        rb2D = GetComponent<Rigidbody2D>();
-        rb2D.velocity = _input*speed;
+        myBulletIndex = bulletIndex;
 
-        damage = _damage;
+        transform.localScale = bulletInfos[bulletIndex].size;
+
+        rb2D = GetComponent<Rigidbody2D>();
+        rb2D.velocity = _input*(speed+ bulletInfos[bulletIndex].additionalSpeed);
+
+        damage = _damage + bulletInfos[bulletIndex].additionalDamage;
 
         Vector3 dir = _input;
         dir.z = 0f;
@@ -40,10 +56,8 @@ public class Bullet : MonoBehaviour
         GetComponent<SpriteRenderer>().color = _leftAttack ? _color_l : _color_r;
 
         teamIndex = _teamIndex;
-        if (teamIndex == 0)
-        {
-            GetComponent<SpriteRenderer>().sprite = bulletSprites[GameData.weaponIndex];
-        }
+        GetComponent<SpriteRenderer>().sprite = bulletInfos[bulletIndex].bulletSprite;
+        
 
         bulletAudioSource.clip = bulletAudioclips[Random.Range(0, bulletAudioclips.Length)];
         bulletAudioSource.Play();
@@ -51,7 +65,14 @@ public class Bullet : MonoBehaviour
         yellParticles[teamIndex].Play();
 
         destroying = false;
-        StartCoroutine("DestroyCoroutine", lifeTime);
+        StartCoroutine("DestroyCoroutine", lifeTime+ bulletInfos[bulletIndex].additionalLifeTime);
+    }
+    private void Update()
+    {
+        if (bulletInfos[myBulletIndex].rotate)
+        {
+            transform.Rotate(Vector3.forward * Time.deltaTime * 360f*3f);
+        }
     }
 
     IEnumerator DestroyCoroutine(float _lifeTime)

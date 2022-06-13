@@ -24,10 +24,14 @@ public class TitleManager : MonoBehaviour
     [SerializeField] WeaponInfo[] weaponInfos;
     [SerializeField] Text skillInfoTxt;
     [SerializeField] Text weaponInfoTxt;
+
+    [SerializeField] Image[] circles;
     
     private void Start()
     {
+        /*
         RandomizeCharacterCustom();
+        */
         RandomizeHandColor(0);
         RandomizeHandColor(1);
 
@@ -35,6 +39,18 @@ public class TitleManager : MonoBehaviour
         AddSkillIndex(0);
 
     }
+
+    private void Update()
+    {
+        circles[0].transform.Rotate(Vector3.forward * Time.deltaTime * 72f);
+        circles[1].transform.Rotate(Vector3.forward * Time.deltaTime * -36f);
+        circles[2].transform.Rotate(Vector3.forward * Time.deltaTime * 18f);
+
+        circles[0].transform.Rotate(Vector3.up * Time.deltaTime * 72f);
+        circles[1].transform.Rotate(Vector3.right * Time.deltaTime * -36f);
+        circles[2].transform.Rotate(Vector3.up * Time.deltaTime * 18f);
+    }
+
     public void RandomizeCharacterCustom()
     {
         characterCustomize.RandomizeCharacterCustom();

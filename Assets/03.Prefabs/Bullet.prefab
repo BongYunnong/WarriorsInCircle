@@ -358,9 +358,28 @@ MonoBehaviour:
   speed: 30
   lifeTime: 0.2
   teamIndex: 0
-  bulletSprites:
-  - {fileID: 21300000, guid: 894f2bdd1b2ae8a4585af5c993b72355, type: 3}
-  - {fileID: 21300000, guid: 686884604e6d7994f8424f26b239f912, type: 3}
+  bulletInfos:
+  - bulletName: Fist
+    bulletSprite: {fileID: 21300000, guid: 894f2bdd1b2ae8a4585af5c993b72355, type: 3}
+    additionalSpeed: 0
+    additionalDamage: 1
+    additionalLifeTime: 0
+    size: {x: 1, y: 1}
+    rotate: 0
+  - bulletName: Bullet
+    bulletSprite: {fileID: 21300000, guid: 686884604e6d7994f8424f26b239f912, type: 3}
+    additionalSpeed: 20
+    additionalDamage: -2
+    additionalLifeTime: 0.2
+    size: {x: 0.5, y: 0.5}
+    rotate: 0
+  - bulletName: Bone
+    bulletSprite: {fileID: -4790604205316499125, guid: 79bd6212be3242c4782d80815424305f, type: 3}
+    additionalSpeed: 0
+    additionalDamage: 0
+    additionalLifeTime: 0
+    size: {x: 1, y: 1}
+    rotate: 1
   yellParticles:
   - {fileID: 4563073852312192333}
   - {fileID: 5596136551073707060}

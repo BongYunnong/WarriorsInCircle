@@ -215,8 +215,9 @@ MonoBehaviour:
   bulletColors:
   - {r: 0, g: 0.2465775, b: 1, a: 1}
   - {r: 0.42399856, g: 0.14509805, b: 0.74509805, a: 1}
-  attackCost: 1
-  gunDamage: 0
+  attackCost: 2
+  gunDamage: 3
+  weaponIndex: 0
   target: {fileID: 0}
   attackRange: 8
   attackRapid: 0.1
@@ -332,16 +333,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 4143508666193745451}
   speed: 3
-  staminaRecoveryRate: 5
+  staminaRecoveryRate: 15
   ImpactMultiplier: 3
   dodgeForce: 30
   dodgeStaminaCost: 5
   teamIndex: 1
   maxHealth: 100
   stamina: 0
-  maxStamina: 50
+  maxStamina: 100
   currOverhittingTime: 0
   overHittingTime: 3
+  isDummy: 0
+  setStatRandomly: 0
   aiMode: 0
   skillInput: 0
 --- !u!50 &8591560172984465828

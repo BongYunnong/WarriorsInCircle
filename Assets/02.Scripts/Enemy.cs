@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : Character
 {
+    public bool isDummy;
+    public bool setStatRandomly;
     public enum AIMode
     {
         Opensive,
@@ -16,21 +18,27 @@ public class Enemy : Character
     public bool skillInput;
     protected override void Start()
     {
-        GameManager _gm = GameManager.GetInstance();
-        maxHealth = Random.Range(_gm.enemyHealthMixMax.x, _gm.enemyHealthMixMax.y);
-        maxStamina = Random.Range(_gm.enemyStaminaMinMax.x, _gm.enemyStaminaMinMax.y);
-        speed = Random.Range(_gm.enemySpeedMinMax.x, _gm.enemySpeedMinMax.y);
+        if (setStatRandomly)
+        {
+            GameManager _gm = GameManager.GetInstance();
+            maxHealth = Random.Range(_gm.enemyHealthMixMax.x, _gm.enemyHealthMixMax.y);
+            maxStamina = Random.Range(_gm.enemyStaminaMinMax.x, _gm.enemyStaminaMinMax.y);
+            speed = Random.Range(_gm.enemySpeedMinMax.x, _gm.enemySpeedMinMax.y);
 
-        EnemyGun enemeyGun= GetComponentInChildren<EnemyGun>();
-        enemeyGun.SetGunDamage(Random.Range(_gm.enemyDamageMinMax.x, _gm.enemyDamageMinMax.y));
-        enemeyGun.SetAttackRapid(Random.Range(_gm.enemyAttackRateMinMax.x, _gm.enemyAttackRateMinMax.y));
+            EnemyGun enemeyGun = GetComponentInChildren<EnemyGun>();
+            enemeyGun.SetGunDamage(Random.Range(_gm.enemyDamageMinMax.x, _gm.enemyDamageMinMax.y));
+            enemeyGun.SetAttackRapid(Random.Range(_gm.enemyAttackRateMinMax.x, _gm.enemyAttackRateMinMax.y));
+        }
 
         base.Start();
 
-        StartCoroutine("ChangeMoveInputCoroutine");
-        StartCoroutine("ChangeDodgeInputCoroutine");
-        StartCoroutine("ChangeSkillInputCoroutine");
-        StartCoroutine("ChangeAIModeCoroutine");
+        if (isDummy==false)
+        {
+            StartCoroutine("ChangeMoveInputCoroutine");
+            StartCoroutine("ChangeDodgeInputCoroutine");
+            StartCoroutine("ChangeSkillInputCoroutine");
+            StartCoroutine("ChangeAIModeCoroutine");
+        }
     }
     
     protected override void Update()
@@ -41,12 +49,12 @@ public class Enemy : Character
         {
             if (attacked)
             {
-                if (dodgeProbability <= 0.3f)
+                if (dodgeProbability >= 0.7f)
                 {
                     Dodge(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized);
                 }
             }
-            else if (dodgeProbability < 0.05f)
+            else if (dodgeProbability >= 0.95f)
             {
                 Dodge(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized);
             }

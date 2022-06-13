@@ -63,7 +63,7 @@ public class Skill : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (GameManager.GetInstance().GameEnded || Owner.health < 0)
+        if (GameManager.GetInstance().GameEnded || Owner.health <= 0)
         {
             return;
         }
@@ -145,6 +145,9 @@ public class Skill : MonoBehaviour
                 case SkillType.Heal:
                     HealEffectObj.SetActive(true);
                     break;
+                case SkillType.Berserker:
+                    Owner.currOverhittingTime = 0;
+                    break;
             }
         }
         else
@@ -213,19 +216,23 @@ public class Skill : MonoBehaviour
     protected void Skill_Invisible()
     {
         Owner.characterCustomize.SetTemporalSpriteColor(new Color(0f, 0f, 0f, 0f), 5f);
-        Owner.stamina -= Time.deltaTime * 10f;
-        if (Owner.stamina < Time.deltaTime * 10f)
+        Owner.stamina -= Time.deltaTime * 20f;
+        if (Owner.stamina < Time.deltaTime * 20f)
         {
             GameManager _gm = GameManager.GetInstance();
             _gm.TriggerGotStaminaAnim(Owner.teamIndex, false);
             _gm.TriggerOverHeatedAnim(Owner.teamIndex);
             SetActiveSkill(false);
         }
+        if (activatedTime >= 5f)
+        {
+            SetActiveSkill(false);
+        }
     }
     protected void Skill_Berserker()
     {
         Owner.characterCustomize.SetTemporalSpriteColor(Color.red, 5f);
-        Owner.stamina += Time.deltaTime * 10f;
+        Owner.stamina += Time.deltaTime * 100f;
 
         if (activatedTime >= 5f)
         {
@@ -235,12 +242,16 @@ public class Skill : MonoBehaviour
     protected void Skill_Haste()
     {
         Owner.characterCustomize.SetTemporalSpriteColor(Color.cyan, 2f);
-        Owner.stamina -= Time.deltaTime * 5f;
-        if (Owner.stamina < Time.deltaTime * 5f)
+        Owner.stamina -= Time.deltaTime * 20f;
+        if (Owner.stamina < Time.deltaTime * 20f)
         {
             GameManager _gm = GameManager.GetInstance();
             _gm.TriggerGotStaminaAnim(Owner.teamIndex, false);
             _gm.TriggerOverHeatedAnim(Owner.teamIndex);
+            SetActiveSkill(false);
+        }
+        if (activatedTime >= 5f)
+        {
             SetActiveSkill(false);
         }
     }

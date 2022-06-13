@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Image SkillImg;
     [SerializeField] Sprite[] skillSprites;
     Player player;
-    Enemy enemy;
+    Enemy[] enemy;
 
     [SerializeField] float GameTime;
 
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player>();
-        enemy = FindObjectOfType<Enemy>();
+        enemy = FindObjectsOfType<Enemy>();
         Invoke("UpdateCharacterHealth",0.5f);
 
         GameEnded = false;
@@ -79,14 +79,21 @@ public class GameManager : MonoBehaviour
             gameTimeTxt.text = ((int)(GameTime / 60f) % 60f).ToString("00") + ":" + ((int)(GameTime % 60f)).ToString("00");
             UpdateCharacterStamina();
 
+            float remainEnemyHealth = 0;
+            float totalMaxEnemyHealth = 0;
+            for (int i = 0; i < enemy.Length; i++)
+            {
+                remainEnemyHealth += enemy[i].health;
+                totalMaxEnemyHealth += enemy[i].maxHealth;
+            }
             if (GameTime <= 0)
             {
                 GameEnded = true;
-                bool cleared = enemy.health <= player.health;
+                bool cleared = remainEnemyHealth <= player.health;
                 gameOverPanel.SetActive(!cleared);
                 gameClearPanel.SetActive(cleared);
             }
-            else if (enemy.health <= 0)
+            else if (remainEnemyHealth <= 0)
             {
                 GameEnded = true;
                 gameOverPanel.SetActive(false);
@@ -99,7 +106,7 @@ public class GameManager : MonoBehaviour
                 gameClearPanel.SetActive(false);
             }
 
-            if(enemy && player && ((enemy.health/enemy.maxHealth)<0.2f || (player.health / player.maxHealth) < 0.2f))
+            if(player && ((remainEnemyHealth / totalMaxEnemyHealth) <0.2f || (player.health / player.maxHealth) < 0.2f))
             {
                 backgroundAudioSource.volume = Mathf.Lerp(backgroundAudioSource.volume, 0, Time.deltaTime);
                 ExecutionAudioSource.volume = Mathf.Lerp(ExecutionAudioSource.volume, 0.6f, Time.deltaTime);
@@ -133,17 +140,30 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateCharacterHealth()
     {
+        float remainEnemyHealth = 0;
+        float totalMaxEnemyHealth = 0;
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            remainEnemyHealth += enemy[i].health;
+            totalMaxEnemyHealth += enemy[i].maxHealth;
+        }
+
         if (player)
             healthSliders[0].value = (float)player.health / player.maxHealth;
-        if (enemy)
-            healthSliders[1].value = (float)enemy.health / enemy.maxHealth;
+        healthSliders[1].value = (float)remainEnemyHealth / totalMaxEnemyHealth;
     }
     public void UpdateCharacterStamina()
     {
+        float remainEnemyStamina = 0;
+        float totalMaxEnemyStamina = 0;
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            remainEnemyStamina += enemy[i].stamina;
+            totalMaxEnemyStamina += enemy[i].maxStamina;
+        }
         if (player)
             staminaSliders[0].value = (float)player.stamina / player.maxStamina;
-        if (enemy)
-            staminaSliders[1].value = (float)enemy.stamina / enemy.maxStamina;
+        staminaSliders[1].value = (float)remainEnemyStamina / totalMaxEnemyStamina;
     }
     public void UpdateSkillCoolTime(float _ratio)
     {

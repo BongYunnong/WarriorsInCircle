@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyGun : Gun
 {
+    [SerializeField] int weaponIndex;
     [SerializeField] Transform target;
     [SerializeField] float attackRange = 1f;
     [SerializeField] float attackRapid = 0.1f;
@@ -14,6 +15,12 @@ public class EnemyGun : Gun
     {
         base.Start();
         currAttackCoolTime = attackRapid;
+
+        // GUN
+        if (weaponIndex == 1)
+        {
+            attackRange += 5f;
+        }
     }
     public void SetAttackRapid(float _rapid)
     {
@@ -22,7 +29,7 @@ public class EnemyGun : Gun
 
     protected override void Update()
     {
-        if (GameManager.GetInstance().GameEnded || Owner.health < 0)
+        if (GameManager.GetInstance().GameEnded || Owner.health <= 0 || Owner.GetComponent<Enemy>().isDummy)
         {
             return;
         }
@@ -36,7 +43,7 @@ public class EnemyGun : Gun
                 if (currAttackCoolTime <= 0 
                     && Vector3.Distance(target.position, this.transform.position) <= attackRange)
                 {
-                    Skill targetSkill = target.GetComponent<Skill>();
+                    Skill targetSkill = target.GetComponentInChildren<Skill>();
                     if (targetSkill)
                     {
                         if (targetSkill.skillType == Skill.SkillType.Invisible 
@@ -69,7 +76,7 @@ public class EnemyGun : Gun
                     }
 
                     GameObject currBullet = Instantiate(BulletPrefab, bulletSpawnTRs[attackCount % 2].position, Quaternion.identity);
-                    currBullet.GetComponent<Bullet>().InitializeBullet(gunDamage,(dir).normalized, attackCount % 2 == 0, Owner.teamIndex, bulletColors[0], bulletColors[1]);
+                    currBullet.GetComponent<Bullet>().InitializeBullet(weaponIndex,gunDamage, (dir).normalized, attackCount % 2 == 0, Owner.teamIndex, bulletColors[0], bulletColors[1]);
                     Owner.stamina -= attackCost;
                     if (Owner.stamina < attackCost)
                     {

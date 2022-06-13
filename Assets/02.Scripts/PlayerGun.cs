@@ -38,7 +38,7 @@ public class PlayerGun : Gun
 
                         GameObject currBullet = Instantiate(BulletPrefab, bulletSpawnTRs[i].position, Quaternion.identity);
                         Owner.stamina -= attackCost;
-                        currBullet.GetComponent<Bullet>().InitializeBullet(gunDamage,(dir - this.transform.position).normalized, i==0, Owner.teamIndex, bulletColors[0], bulletColors[1]);
+                        currBullet.GetComponent<Bullet>().InitializeBullet(GameData.weaponIndex,gunDamage,(dir - this.transform.position).normalized, i==0, Owner.teamIndex, bulletColors[0], bulletColors[1]);
                         if (Owner.stamina < attackCost)
                         {
                             _gm.TriggerGotStaminaAnim(Owner.teamIndex, false);
